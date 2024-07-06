@@ -2,6 +2,7 @@ $(function () {
     createKeys();
     currentDateTime();
     setBackround();
+    getCommissions();
     // insertTempUser("Admin", "admin@admin.com", adminUser, noImage);
 
     // getTotalAvailable8AM();
