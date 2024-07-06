@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "milkywaydraws2k24"
+  },
+  "targets": {
+    "milkywaydraws2k24": {
+      "hosting": {
+        "milkywaydraws2k24": [
+          "milkywaydraws"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
