@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="../images/favicon.ico">
+  <title>milkywaydraws | Admin</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="dist/css/custom.css">
+  <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+
+<div class="wrapper">
+
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link  text-center">
+      <span class="brand-text font-weight-bold text-white">milkywaydraws</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">
+              <i class="nav-icon fas fa-home"></i>
+              <p>Overview</p>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Commissions
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="add-commissions.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Commissions</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="commissions.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>List of Commissions</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item active">
+            <a href="financial.html" class="nav-link">
+              <i class="nav-icon fa fa-credit-card"></i>
+              <p>Financials</p>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="settings.html" class="nav-link" id="primary-active">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>Settings</p>
+            </a>
+          </li><li class="nav-item active">
+            <a href="#" class="nav-link" onclick="logoutUser()">
+              <i class="nav-icon fa fa-times-circle"></i>
+              <p>Logout</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Settings</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">Home</li>
+              <li class="breadcrumb-item active">Settings</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+
+    <section class="content">
+        <div class="card-body p-0">
+            <section class="content">
+              <div class="container-fluid">
+                <div class="card-body p-0">
+                    
+                  </div>
+              </div>
+            </section>
+        </div>
+    </section>
+
+  </div>
+  
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2024 <a href="#" id="primary-active">milkywaydraws</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 1.0.0
+    </div>
+  </footer>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-storage.js"></script>
+<script src="plugins/jquery/jquery.min.js"></script>
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="plugins/chart.js/Chart.min.js"></script>
+<script src="plugins/sparklines/sparkline.js"></script>
+<script src="plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="plugins/summernote/summernote-bs4.min.js"></script>
+<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="dist/js/adminlte.js"></script>
+<script src="dist/js/pages/dashboard.js"></script>
+<script src="dist/js/lib/global.js"></script>
+<script src="dist/js/lib/provider.js"></script>
+<script src="dist/js/interface/index.js"></script>
+<script src="dist/js/lib/main.js"></script>
+<script src="dist/js/lib/auth.js"></script>
+</body>
+</html>

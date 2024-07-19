@@ -1,3 +1,8 @@
+function redirectCommission(commissionName) {
+    console.log("commissionName ->", commissionName);
+    window.location.href = "commission-form.html";
+};
+
 (function($) {
 
     var isBuilder = $('html').hasClass('is-builder');
