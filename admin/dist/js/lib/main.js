@@ -28,7 +28,7 @@ $('#btn-request-commission').click(function() {
     }
 });
 
-$('#btn-submit-request-commission-form').click(function() {
+$('#btn-submit-request-commission-form, #btn-submit-request-commission-form-admin').click(function() {
     showModal('#modal-loading', show);
     
     var commissionUserName = e,
@@ -45,7 +45,12 @@ $('#btn-submit-request-commission-form').click(function() {
     commissionType = e,
     commissionUploadFile = e,
     commissionAddLink = e,
-    commissionExtraInformation = e;
+    commissionExtraInformation = e,
+    positionUser = regularUser;
+
+    if (getUserPosition == adminUser) {
+        positionUser = adminUser;
+    }
 
     commissionUserName = $('#commission-name').val();
     commissionUserAge = $('#commission-age').val();
@@ -91,7 +96,7 @@ $('#btn-submit-request-commission-form').click(function() {
             commission_upload_file: commissionUploadFile,
             commission_add_link: commissionAddLink,
             commission_extra_information: commissionExtraInformation,
-            position: regularUser,
+            position: positionUser,
             type: "Created by " + commissionUserName,
             status: pending,
             created_at: serverDateTime
@@ -103,7 +108,11 @@ $('#btn-submit-request-commission-form').click(function() {
         emptyInputText(['#commission-name','#commission-age','#commission-country','#commission-payment-method','#commission-payment-number','#commission-email','#commission-discord','#commission-facebook','#commission-twitter','#commission-instagram','#commission-twitch','#commission-type','#commission-upload-files','#commission-add-link','#commission-extra-information']);
         setTimeout(function() {
             hideProgressModal();
-            window.location.href = "commission.html";
+            var redirectURL = "commission.html";
+            if (positionUser == adminUser) {
+                redirectURL = "commissions.html";
+            }
+            window.location.href = redirectURL
         }, 5000);
     }
 });
