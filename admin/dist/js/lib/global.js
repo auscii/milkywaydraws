@@ -178,5 +178,6 @@ inactive = "Inactive",
 available = "AVAILABLE",
 paid = "PAID",
 completed = "COMPLETED",
+pending = "PENDING",
 adminApproveSelectedTime = false,
 versionNumber = "v1.0.0";
