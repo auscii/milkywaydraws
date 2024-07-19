@@ -72,8 +72,7 @@ $('#btn-submit-request-commission-form, #btn-submit-request-commission-form-admi
     if (!commissionUserName || !commissionUserAge || !commissionCountry ||
         !commissionPaymentMethod || !commissionPaymentNumber || !commissionEmail ||
         !commissionDiscord || !commissionFacebook || !commissionTwitter ||
-        !commissionInstagram || !commissionTwitch || !commissionType ||
-        !commissionUploadFile || !commissionExtraInformation
+        !commissionInstagram || !commissionTwitch || !commissionType || !commissionExtraInformation
     ) {
         hideProgressModal();
         toast(requiredMsg, warning);
@@ -141,21 +140,7 @@ const getCommissions = async (doc) => {
         let commissionAddLink = data.commission_add_link;
         let commissionPosition = data.position;
         let dateTimeCreated = convertSecondsToDateLocal(data.created_at.seconds);
-        text('#display-commission-name', commissionUserName);
-        text('#display-commission-age', commissionAge);
-        text('#display-commission-country', commissionCountry);
-        text('#display-commission-payment-method', commissionPaymentMethod);
-        text('#display-commission-email', commissionEmail);
-        text('#display-commission-discord', commissionDiscord);
-        text('#display-commission-facebook', commissionFacebook);
-        text('#display-commission-twitter', commissionTwitter);
-        text('#display-commission-instagram', commissionInstagram);
-        text('#display-commission-twitch', commissionTwitch);
-        text('#display-commission-type', commissionUserName);
-        text('#display-commission-add-link', commissionAddLink);
-        text('#display-commission-extra-info', commissionExtraInfo);
-        // text('#display-commission-aaaa', commissionUserName);
-        $('#commission-lists').append('<tr><td class="text-center">'+dateTimeCreated+'</td><td class="text-center">'+commissionUserName+'</td><td class="text-center">'+commissionCountry+'</td><td class="text-center">'+commissionEmail+'</td><td class="text-center">'+commissionType+'</td><td class="text-center">'+status+'</td><td class="text-center"><button class="btn btn-primary text-white" onclick="viewCommission(\''+commissionType+'\')"><i class="fa fa-eye"></i> VIEW MORE</button></td></tr>');
+        $('#commission-lists').append('<tr><td class="text-center">'+dateTimeCreated+'</td><td class="text-center">'+commissionUserName+'</td><td class="text-center">'+commissionCountry+'</td><td class="text-center">'+commissionEmail+'</td><td class="text-center">'+commissionType+'</td><td class="text-center">'+status+'</td><td class="text-center"><button class="btn btn-primary text-white" onclick="viewCommission(\''+commissionType+'\',\''+commissionUserName+'\',\''+commissionAge+'\',\''+commissionCountry+'\',\''+commissionPaymentMethod+'\',\''+commissionEmail+'\',\''+commissionDiscord+'\',\''+commissionFacebook+'\',\''+commissionTwitter+'\',\''+commissionInstagram+'\',\''+commissionTwitch+'\',\''+commissionAddLink+'\',\''+commissionExtraInfo+'\')"><i class="fa fa-eye"></i> VIEW MORE</button></td></tr>');
         hideProgressModal();
     });
     setTimeout(function() {
@@ -163,7 +148,47 @@ const getCommissions = async (doc) => {
     }, 10000);
 }
 
-function viewCommission(commissionType) {
+function viewCommission(
+    commissionType, commissionUserName, commissionAge, commissionCountry,
+    commissionPaymentMethod, commissionEmail, commissionDiscord,
+    commissionFacebook, commissionTwitter, commissionInstagram,
+    commissionTwitch, commissionAddLink, commissionExtraInfo
+) {
     showModal('#modal-view-commission', show);
     text('#selected-commission-name', commissionType);
+    text('#display-commission-name', commissionUserName);
+    text('#display-commission-age', commissionAge);
+    text('#display-commission-country', commissionCountry);
+    text('#display-commission-payment-method', commissionPaymentMethod);
+    text('#display-commission-email', commissionEmail);
+    text('#display-commission-discord', commissionDiscord);
+    text('#display-commission-facebook', commissionFacebook);
+    text('#display-commission-twitter', commissionTwitter);
+    text('#display-commission-instagram', commissionInstagram);
+    text('#display-commission-twitch', commissionTwitch);
+    text('#display-commission-type', commissionType);
+    text('#display-commission-add-link', commissionAddLink);
+    text('#display-commission-extra-info', commissionExtraInfo);
+    $('#btn-delete-commission').click(function() {
+        showModal('#modal-view-commission', hide);
+        showModal('#modal-info-delete', show);
+        text('#modal-header-title-delete', 'Warning: Delete Commission');
+        text('#modal-message-delete', deleteMsg + commissionType);
+        $('#btn-submit-commission-delete').click(async function() {
+            showModal('#modal-loading', show);
+            showModal('#modal-info-delete', hide);
+            const doc = await db.collection(commissionsRef + commissionsDomain + sl + entryRef).where('commission_type', '==', commissionType).get();
+            doc.forEach(element => {
+                element.ref.delete();
+                toast("Successfully Deleted " + commissionType + "!", error);
+                setTimeout(function() {
+                    hideProgressModal();
+                    reloadPage(commissionsURL);
+                }, 3000);
+            });
+            setTimeout(function() {
+                hideProgressModal();
+            }, 10000);
+        });
+    });
 }
