@@ -338,7 +338,7 @@
                                 <div class="col-md-6 multi-horizontal" data-for="commission-payment-method">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-payment-method">Payment Method</label>
-                                        <select class="form-control" name="commission-payment-method" data-form-field="commission-payment-method" id="commission-payment-method">
+                                        <select class="form-control" name="commission-payment-method" data-form-field="commission-payment-method" id="commission-payment-method" required>
                                             <option disabled selected>--Select Payment Method--</option>
                                             <option value="Gcash">Gcash</option>
                                             <option value="Paypal">Paypal</option>
@@ -348,7 +348,7 @@
                                 <div class="col-md-6 multi-horizontal" data-for="commission-payment-number">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-payment-number">Payment No.</label>
-                                        <input type="number" class="form-control" name="commission-payment-number" data-form-field="commission-payment-number" required="" id="commission-payment-number">
+                                        <input type="number" class="form-control" name="commission-payment-number" data-form-field="commission-payment-number" id="commission-payment-number" required>
                                     </div>
                                 </div>
                             </div> <br> <br>
@@ -404,8 +404,15 @@
                                 <div class="col-md-12 multi-horizontal" data-for="commission-type">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-type">COMMISSION</label>
-                                        <select class="form-control" name="commission-type" data-form-field="commission-type" id="commission-type">
+                                        <select class="form-control" name="commission-type" data-form-field="commission-type" id="commission-type" required>
                                             <option disabled selected>--Select Commission--</option>
+                                            <option value="Headshot">Headshot</option>
+                                            <option value="Bust">Bust</option>
+                                            <option value="Waist Up">Waist Up</option>
+                                            <option value="Emotes">Emotes</option>
+                                            <option value="Chibi/Panels">Chibi/Panels</option>
+                                            <option value="Your Character Here (YCH)">Your Character Here (YCH)</option>
+                                            <option value="Banners">Banners</option>
                                         </select>
                                     </div>
                                 </div>
@@ -424,7 +431,7 @@
                                 <div class="col-md-12 multi-horizontal" data-for="commission-extra-information">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-extra-information">Extra Information (Please be detailed)</label>
-                                        <textarea type="text" class="form-control" name="commission-extra-information" rows="7" data-form-field="commission-extra-information" id="commission-extra-information"></textarea>
+                                        <textarea type="text" class="form-control" name="commission-extra-information" rows="7" data-form-field="commission-extra-information" id="commission-extra-information" required></textarea>
                                         <!-- <select class="form-control" name="commission-type" data-form-field="commission-type" id="commission-type">
                                             <option disabled selected>--Select Commission--</option>
                                         </select> -->
