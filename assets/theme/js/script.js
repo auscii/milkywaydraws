@@ -1,6 +1,20 @@
 function redirectCommission(commissionName) {
-    console.log("commissionName ->", commissionName);
-    window.location.href = "commission-form.html";
+    showModal('#modal-read-terms-condition', show);
+    $('#btn-agree-terms-condition').click(function() {
+        showModal('#modal-info', show);
+        if ($("#accept-terms-service").is(':checked')) {
+            window.location.href = "commission-form.html";
+        } else {
+            showModal('#modal-read-terms-condition', hide);
+            text('#modal-header-title', warningLabel);
+            text('#modal-message', checkRequiredMsg);
+        }
+    });
+    $('#btn-info-ok').click(function() {
+        showModal('#modal-info', hide);
+        showModal('#modal-read-terms-condition', show);
+    });
+    
 };
 
 (function($) {
