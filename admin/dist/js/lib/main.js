@@ -119,7 +119,11 @@ $('#btn-submit-request-commission-form, #btn-submit-request-commission-form-admi
 const getCommissions = async (doc) => {
     showModal('#modal-loading', show);
     var values = await db.collection(commissionsRef + commissionsDomain + sl + entryRef).get(); //.where("status", '==', 1).get();
-    // console.log("getCommissions total ->", values.docs.length);
+    var requestsCommissions = await db.collection(commissionsRef + commissionsDomain + sl + entryRef).where("status", '==', "PENDING").get();
+    var totalCommissions = values.docs.length;
+    var totalRequestsCommissions = requestsCommissions.docs.length;
+    text('#display-total-commissions', totalCommissions)
+    text('#display-total-requests', totalRequestsCommissions)
     values.docs.forEach(v => {
         let data= v.data();
         let status = data.status;

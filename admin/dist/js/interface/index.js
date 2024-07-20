@@ -4,7 +4,6 @@ $(function () {
     setBackround();
     getCommissions();
     // insertTempUser("Admin", "admin@admin.com", adminUser, noImage);
-
     // getTotalAvailable8AM();
     // getTotalAvailable9AM();
     // getTotalAvailable10AM();
