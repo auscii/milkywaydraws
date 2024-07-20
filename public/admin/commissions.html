@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -24,7 +25,7 @@
 
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link  text-center">
+    <a href="index.html" class="brand-link  text-center">
       <span class="brand-text font-weight-bold text-white">milkywaydraws</span>
     </a>
 
@@ -120,6 +121,7 @@
                           <th class="text-center">EMAIL</th>
                           <th class="text-center">COMMISSION</th>
                           <th class="text-center">STATUS</th>
+                          <th class="text-center">ACTION</th>
                         </tr>
                       </thead>
                       <tbody id="commission-lists"></tbody>
@@ -142,9 +144,129 @@
 
 </div>
 
+<!-- MODALS -->
 <div class="modal fade" id="modal-loading" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-sm modal-spinner">
       <center> <img src="dist/img/spinner.gif" class="spinner" /> <p class="text-white">Getting data...</p> </center>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-view-commission" data-backdrop="static" data-keyboard="false" style="overflow: scroll;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-center" id="primary-active"><strong>View - <span id="selected-commission-name"></span></strong></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="fas fa-user" id="primary-active"></i> &nbsp;
+                    <span id="commission-label-title">Personal</span>
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <dl class="row">
+                    <dt class="col-sm-8">Name/Nickname:</dt>
+                    <dd class="col-sm-8"><span id="display-commission-name"></span></dd>
+                    <dt class="col-sm-8">Age:</dt>
+                    <dd class="col-sm-8"><span id="display-commission-age"></span></dd>
+                    <dt class="col-sm-8">Country:</dt>
+                    <dd class="col-sm-8"><span id="display-commission-country"></span></dd>
+                    <dt class="col-sm-8">Payment Method:</dt>
+                    <dd class="col-sm-8"><span id="display-commission-payment-method"></span></dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="fas fa-user" id="primary-active"></i> &nbsp;
+                    <span id="commission-label-title">Contact Details</span>
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <dl class="row">
+                    <dt class="col-sm-8">Email:</dt>
+                    <dd class="col-sm-8"><span id="display-commission-email"></span></dd>
+                    <dt class="col-sm-8">Discord:</dt>
+                    <dd class="col-sm-8"><span id="display-commission-discord"></span></dd>
+                    <dt class="col-sm-8">Facebook:</dt>
+                    <dd class="col-sm-8"><span id="display-commission-facebook"></span></dd>
+                    <dt class="col-sm-8">Twitter/X:</dt>
+                    <dd class="col-sm-8"><span id="display-commission-twitter"></span></dd>
+                    <dt class="col-sm-8">Instagram:</dt>
+                    <dd class="col-sm-8"><span id="display-commission-instagram"></span></dd>
+                    <dt class="col-sm-8">Twitch:</dt>
+                    <dd class="col-sm-8"><span id="display-commission-twitch"></span></dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div> <br>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <i class="fas fa-user" id="primary-active"></i> &nbsp;
+                    <span id="commission-label-title">Request</span>
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <dl class="row">
+                    <dt class="col-sm-8">Commission Name:</dt>
+                    <dd class="col-sm-8"><span id="display-commission-type"></span></dd>
+                    <dt class="col-sm-8">Add Link:</dt>
+                    <dd class="col-sm-8"><span id="display-commission-add-link"></span></dd>
+                    <dt class="col-sm-8">Extra Information:</dt>
+                    <dd class="col-sm-8"><span id="display-commission-extra-info"></span></dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div> <br>
+          <div class="row">
+            <div class="col-md-12">
+              <button type="button" class="btn btn-danger text-right" id="btn-delete-commission"><i class="fa fa-trash"></i> Delete Commission</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default text-right" data-dismiss="modal" aria-label="Close"> <i class="fa fa-times"></i> Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-info-delete" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-center" id="theme-color"><strong id="modal-header-title-delete"></strong></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+              <p id="modal-message-delete"></p>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success text-right" id="btn-submit-commission-delete"> <i class="fa fa-check-circle"></i> Yes</button> &nbsp;
+        <button type="button" class="btn btn-danger text-right" data-dismiss="modal" aria-label="Close"> <i class="fa fa-times-circle"></i> No</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -163,8 +285,8 @@
 <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <script src="plugins/summernote/summernote-bs4.min.js"></script>
 <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="plugins/toastr/toastr.min.js"></script>
 <script src="dist/js/adminlte.js"></script>
-<script src="dist/js/pages/dashboard.js"></script>
 <script src="dist/js/lib/global.js"></script>
 <script src="dist/js/lib/provider.js"></script>
 <script src="dist/js/interface/index.js"></script>

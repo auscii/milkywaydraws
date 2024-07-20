@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="assets/theme/css/style.css">
   <link rel="stylesheet" href="assets/mobirise-gallery/style.css">
   <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
+  <link rel="stylesheet" href="admin/plugins/toastr/toastr.min.css">
 </head>
 <body>
 
@@ -32,7 +33,7 @@
             <div class="menu-logo">
                 <div class="navbar-brand">
                     <span class="navbar-caption-wrap">
-                        <a class="navbar-caption" id="theme-color" href="#" style="width: 200px;">milkywaydraws</a>
+                        <a class="navbar-caption" id="theme-color" href="index.html" style="width: 200px;">milkywaydraws</a>
                     </span>
                 </div>
             </div>
@@ -72,24 +73,24 @@
                                 PERSONAL
                             </h5>
                         </div>
-                        <form class="mbr-form" action="commission.html" method="post" data-form-title="Mobirise Form">
+                        <form class="mbr-form" action="#" method="POST">
                             <div class="row row-sm-offset">
                                 <div class="col-md-12 multi-horizontal" data-for="commission-name">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="name-form1-39">Name/Nickname</label>
-                                        <input type="text" class="form-control" name="commission-name" data-form-field="commission-name" id="commission-name" required>
+                                        <input type="text" class="form-control" name="commission-name" data-form-field="commission-name" id="commission-name">
                                     </div>
                                 </div>
                                 <div class="col-md-12 multi-horizontal" data-for="commission-age">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-age">Age</label>
-                                        <input type="number" class="form-control" name="commission-age" data-form-field="commission-age" id="commission-age" required>
+                                        <input type="number" class="form-control" name="commission-age" data-form-field="commission-age" id="commission-age">
                                     </div>
                                 </div>
                                 <div class="col-md-12 multi-horizontal" data-for="commission-country">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-country">Country</label>
-                                        <select class="form-control" name="commission-country" data-form-field="commission-country" id="commission-country" required>
+                                        <select class="form-control" name="commission-country" data-form-field="commission-country" id="commission-country">
                                             <option disabled selected>--Select Country--</option>
                                             <option value="United States">United States</option>
                                             <option value="Afghanistan">Afghanistan</option>
@@ -348,7 +349,7 @@
                                 <div class="col-md-6 multi-horizontal" data-for="commission-payment-number">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-payment-number">Payment No.</label>
-                                        <input type="number" class="form-control" name="commission-payment-number" data-form-field="commission-payment-number" required="" id="commission-payment-number">
+                                        <input type="text" class="form-control" name="commission-payment-number" data-form-field="commission-payment-number" id="commission-payment-number">
                                     </div>
                                 </div>
                             </div> <br> <br>
@@ -358,40 +359,43 @@
                                         CONTACT DETAILS
                                     </h5>
                                 </div>
+                                <div class="col-md-12 multi-horizontal">
+                                    <small><b>Note: Please take note that if you don't have social media links, just put "none" in the input field.</b></small>
+                                </div> <br> <br>
                                 <div class="col-md-12 multi-horizontal" data-for="commission-email">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-email">Email</label>
-                                        <input type="text" class="form-control" name="commission-email" data-form-field="commission-email" id="commission-email" required>
+                                        <input type="text" class="form-control" name="commission-email" data-form-field="commission-email" id="commission-email" >
                                     </div>
                                 </div>
                                 <div class="col-md-12 multi-horizontal" data-for="commission-discord">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-discord">Discord</label>
-                                        <input type="text" class="form-control" name="commission-discord" data-form-field="commission-discord" id="commission-discord" required>
+                                        <input type="text" class="form-control" name="commission-discord" data-form-field="commission-discord" id="commission-discord" >
                                     </div>
                                 </div>
                                 <div class="col-md-12 multi-horizontal" data-for="commission-facebook">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-facebook">Facebook</label>
-                                        <input type="text" class="form-control" name="commission-facebook" data-form-field="commission-facebook" id="commission-facebook" required>
+                                        <input type="text" class="form-control" name="commission-facebook" data-form-field="commission-facebook" id="commission-facebook" >
                                     </div>
                                 </div>
                                 <div class="col-md-12 multi-horizontal" data-for="commission-twitter">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-twitter">Twitter/X</label>
-                                        <input type="text" class="form-control" name="commission-twitter" data-form-field="commission-twitter" id="commission-twitter" required>
+                                        <input type="text" class="form-control" name="commission-twitter" data-form-field="commission-twitter" id="commission-twitter" >
                                     </div>
                                 </div>
                                 <div class="col-md-12 multi-horizontal" data-for="commission-instagram">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-instagram">Instagram</label>
-                                        <input type="text" class="form-control" name="commission-instagram" data-form-field="commission-instagram" id="commission-instagram" required>
+                                        <input type="text" class="form-control" name="commission-instagram" data-form-field="commission-instagram" id="commission-instagram" >
                                     </div>
                                 </div>
                                 <div class="col-md-12 multi-horizontal" data-for="commission-twitch">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-twitch">Twitch</label>
-                                        <input type="text" class="form-control" name="commission-twitch" data-form-field="commission-twitch" id="commission-twitch" required>
+                                        <input type="text" class="form-control" name="commission-twitch" data-form-field="commission-twitch" id="commission-twitch" >
                                     </div>
                                 </div>
                             </div> <br> <br>
@@ -406,19 +410,26 @@
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-type">COMMISSION</label>
                                         <select class="form-control" name="commission-type" data-form-field="commission-type" id="commission-type">
                                             <option disabled selected>--Select Commission--</option>
+                                            <option value="Headshot">Headshot</option>
+                                            <option value="Bust">Bust</option>
+                                            <option value="Waist Up">Waist Up</option>
+                                            <option value="Emotes">Emotes</option>
+                                            <option value="Chibi/Panels">Chibi/Panels</option>
+                                            <option value="Your Character Here (YCH)">Your Character Here (YCH)</option>
+                                            <option value="Banners">Banners</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6 multi-horizontal" data-for="commission-upload-files">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-upload-files">Upload File</label>
-                                        <input type="file" class="form-control" name="commission-upload-files" data-form-field="commission-upload-files" id="commission-upload-files" required>
+                                        <input type="file" class="form-control" name="commission-upload-files" data-form-field="commission-upload-files" id="commission-upload-files">
                                     </div>
                                 </div>
                                 <div class="col-md-6 multi-horizontal" data-for="commission-add-link">
                                     <div class="form-group">
                                         <label class="form-control-label mbr-fonts-style display-7" for="commission-add-link">Add Link</label>
-                                        <input type="file" class="form-control" name="commission-add-link" data-form-field="commission-add-link" id="commission-add-link" required>
+                                        <input type="text" class="form-control" name="commission-add-link" data-form-field="commission-add-link" id="commission-add-link">
                                     </div>
                                 </div>
                                 <div class="col-md-12 multi-horizontal" data-for="commission-extra-information">
@@ -442,8 +453,8 @@
                             </div>
                             
                             <center>
-                                <button type="submit" class="btn btn-primary btn-form btn-rounded-corner" style="border-radius: 50px">Request a Commission</button> <br>
-                                <button type="submit" class="btn btn-danger btn-form btn-rounded-corner" style="border-radius: 50px">Cancel</button>
+                                <button type="button" id="btn-submit-request-commission-form" class="btn btn-primary btn-form btn-rounded-corner" style="border-radius: 50px">Request a Commission</button> <br>
+                                <button type="button" class="btn btn-danger btn-form btn-rounded-corner" style="border-radius: 50px">Cancel</button>
                             </center>
                         </form> <br> <br>
                     </div>
@@ -464,15 +475,30 @@
         </div>
     </section>
 
-  <script src="assets/web/assets/jquery/jquery.min.js"></script>
-  <script src="assets/popper/popper.min.js"></script>
-  <script src="assets/tether/tether.min.js"></script>
-  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-  <script src="assets/smooth-scroll/smooth-scroll.js"></script>
-  <script src="assets/dropdown/js/script.min.js"></script>
-  <script src="assets/touch-swipe/jquery.touch-swipe.min.js"></script>
-  <script src="assets/theme/js/script.js"></script>
-  <script src="assets/jarallax/jarallax.min.js"></script>
+    <div class="modal fade" id="modal-loading" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-sm modal-spinner">
+          <center> <img src="admin/dist/img/spinner.gif" class="spinner" /> <p class="text-white">Getting data...</p> </center>
+      </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-storage.js"></script>
+    <script src="assets/web/assets/jquery/jquery.min.js"></script>
+    <script src="assets/popper/popper.min.js"></script>
+    <script src="assets/tether/tether.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/smooth-scroll/smooth-scroll.js"></script>
+    <script src="assets/dropdown/js/script.min.js"></script>
+    <script src="assets/touch-swipe/jquery.touch-swipe.min.js"></script>
+    <script src="assets/theme/js/script.js"></script>
+    <script src="admin/plugins/toastr/toastr.min.js"></script>
+    <script src="admin/dist/js/lib/global.js"></script>
+    <script src="admin/dist/js/lib/provider.js"></script>
+    <script src="admin/dist/js/interface/index.js"></script>
+    <script src="admin/dist/js/lib/main.js"></script>
+    <script src="admin/dist/js/lib/auth.js"></script>
   
 </body>
 </html>
