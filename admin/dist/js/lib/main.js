@@ -116,14 +116,70 @@ $('#btn-submit-request-commission-form, #btn-submit-request-commission-form-admi
     }
 });
 
+$('#btn-add-commission-cms').click(async function() {
+    showModal('#modal-add-commissions-cms', show);
+    $('#btn-submit-commissions-cms').click(async function() {
+        showModal('#modal-add-commissions-cms', hide);
+        showModal('#modal-loading', show);
+        text('#loading-message-data', "Uploading and creating new commission data...");
+        var commissionCmsName = e,
+        commissionCmsDescription = e,
+        commissionCmsPrice = e;
+
+        commissionCmsName = $('#commission-cms-name').val();
+        commissionCmsDescription = $('#commission-cms-description').val();
+        commissionCmsPrice = $('#commission-cms-price').val();
+        var commissionCmsImageFile = $('#commission-cms-image-file')[0].files[0];
+        
+        if (!commissionCmsName || !commissionCmsDescription || 
+            !commissionCmsPrice || commissionCmsImageFile == undefined
+        ) {
+            hideProgressModal();
+            toast(requiredMsg, warning);
+        } else {
+            let uploadingImage = storageReference.child(commissionsRef + images + commissionCmsImageFile.name).put(commissionCmsImageFile);
+            uploadingImage.on('state_changed', function(data) {
+                toast(uploading + "new commission for CMS...", info);
+            }, function(err) {
+                toast(err, error);
+                return;
+            }, function() {
+                uploadingImage.snapshot.ref.getDownloadURL().then(function(commissionCmsImageURL) {
+                    toast("Added new Commission! " + successMsg, success);
+                    db.collection(commissionsRef).doc(commissionsDomain).collection(cmsRef).add({
+                        commission_cms_id: uuidv4(),
+                        commission_cms_name: commissionCmsName,
+                        commission_cms_price: commissionCmsPrice,
+                        commission_cms_description: commissionCmsDescription,
+                        commission_cms_image_url: commissionCmsImageURL,
+                        type: "Created by " + getUserEmailAddress,
+                        is_active: true,
+                        created_at: serverDateTime
+                    }).catch(function (e) {
+                        toast(e.message, error);
+                        hideProgressModal();
+                        return;
+                    });
+                    emptyInputText(['#commission-cms-name','#commission-cms-price','#commission-cms-description','#commission-cms-image-file']);
+                    setTimeout(function() {
+                        hideProgressModal();
+                        window.location.href = 'commissions-cms.html'
+                    }, 6500);
+                });
+            });
+        }
+    });
+});
+
 const getCommissions = async (doc) => {
     showModal('#modal-loading', show);
     var values = await db.collection(commissionsRef + commissionsDomain + sl + entryRef).get(); //.where("status", '==', 1).get();
     var requestsCommissions = await db.collection(commissionsRef + commissionsDomain + sl + entryRef).where("status", '==', "PENDING").get();
+    var cmsCommissions = await db.collection(commissionsRef + commissionsDomain + sl + cmsRef).get();
     var totalCommissions = values.docs.length;
     var totalRequestsCommissions = requestsCommissions.docs.length;
-    text('#display-total-commissions', totalCommissions)
-    text('#display-total-requests', totalRequestsCommissions)
+    text('#display-total-commissions', totalCommissions);
+    text('#display-total-requests', totalRequestsCommissions);
     values.docs.forEach(v => {
         let data= v.data();
         let status = data.status;
@@ -147,6 +203,18 @@ const getCommissions = async (doc) => {
         $('#commission-lists').append('<tr><td class="text-center">'+dateTimeCreated+'</td><td class="text-center">'+commissionUserName+'</td><td class="text-center">'+commissionCountry+'</td><td class="text-center">'+commissionEmail+'</td><td class="text-center">'+commissionType+'</td><td class="text-center">'+status+'</td><td class="text-center"><button class="btn btn-primary text-white" onclick="viewCommission(\''+commissionType+'\',\''+commissionUserName+'\',\''+commissionAge+'\',\''+commissionCountry+'\',\''+commissionPaymentMethod+'\',\''+commissionEmail+'\',\''+commissionDiscord+'\',\''+commissionFacebook+'\',\''+commissionTwitter+'\',\''+commissionInstagram+'\',\''+commissionTwitch+'\',\''+commissionAddLink+'\',\''+commissionExtraInfo+'\')"><i class="fa fa-eye"></i> VIEW MORE</button></td></tr>');
         hideProgressModal();
     });
+    cmsCommissions.docs.forEach(v => {
+        let data= v.data();
+        let commissionId = data.commission_cms_id;
+        let commissionName = data.commission_cms_name;
+        let commissionPrice = data.commission_cms_price;
+        let commissionDescription = data.commission_cms_description;
+        let commissionImageURL = data.commission_cms_image_url;
+        let commissionDateTimeCreated = convertSecondsToDateLocal(data.created_at.seconds);
+        $('#commissions-cms-list').append('<tr><td class="text-center"><img src="'+commissionImageURL+'" width="75" height="50"></td><td class="text-center">'+commissionName+'</td><td class="text-center">'+commissionDescription+'</td><td class="text-center">'+commissionPrice+'</td><td class="text-center">'+commissionDateTimeCreated+'</td><td class="text-center"><button class="btn btn-primary text-white" onclick="viewCommissionCMS(\''+commissionId+'\',\''+commissionName+'\',\''+commissionPrice+'\',\''+commissionDescription+'\',\''+commissionImageURL+'\',\''+commissionDateTimeCreated+'\')"><i class="fa fa-eye"></i> VIEW MORE</button></td></tr>');
+        hideProgressModal();
+    });
+    
     setTimeout(function() {
         hideProgressModal();
     }, 10000);
@@ -195,4 +263,12 @@ function viewCommission(
             }, 10000);
         });
     });
+}
+
+function viewCommissionCMS(commissionId, commissionName, commissionPrice, commissionDescription, commissionImageURL, commissionDateTimeCreated) {
+    showModal('#modal-view-commission-cms', show);
+    inputText('#update-commission-cms-name', commissionName);
+    inputText('#update-commission-cms-price', commissionPrice);
+    inputText('#update-commission-cms-description', commissionDescription);
+    setImage('#display-cms-commission-image', commissionImageURL);
 }
