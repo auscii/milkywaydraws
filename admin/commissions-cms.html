@@ -224,14 +224,14 @@
                         <div class="card-body">
                             <div class="col-md-12 multi-horizontal" data-for="update-commission-cms-image-file">
                                 <div class="form-group">
-                                    <img src="../images/thumbnail.png" id="display-cms-commission-image" width="150" height="150"> <br>
+                                    <img src="../images/thumbnail.png" id="display-cms-update-commission-image" width="150" height="150"> <br>
                                     <label class="form-control-label mbr-fonts-style display-7" for="update-commission-cms-image-file">Image</label> <br>
-                                    <input type="file" accept="image/*" class="form-control" name="update-commission-cms-image-file" data-form-field="update-commission-cms-image-file" id="update-commission-cms-image-file" onchange="document.getElementById('commission-cms-display-image').src = window.URL.createObjectURL(this.files[0])"> <br>
+                                    <input type="file" accept="image/*" class="form-control" name="update-commission-cms-image-file" data-form-field="update-commission-cms-image-file" id="update-commission-cms-image-file" onchange="document.getElementById('display-cms-update-commission-image').src = window.URL.createObjectURL(this.files[0])"> <br>
                                 </div>
                             </div>
                             <div class="text-left">
                                 <div class="row">
-                                    <div class="col-md-6 multi-horizontal" data-for="commission-cms-name">
+                                    <div class="col-md-6 multi-horizontal" data-for="update-commission-cms-name">
                                         <div class="form-group">
                                             <label class="form-control-label mbr-fonts-style display-7" for="update-commission-cms-name">Commission Name</label>
                                             <input type="text" class="form-control" name="update-commission-cms-name" data-form-field="update-commission-cms-name" id="update-commission-cms-name">
@@ -261,7 +261,7 @@
         <div class="row">
 
         <div class="col-md-4">
-            <button type="button" class="btn btn-success" id="btn-update-commission"><i class="fa fa-pen"></i> Update Commission</button>
+            <button type="button" class="btn btn-success" id="btn-submit-update-commission"><i class="fa fa-pen"></i> Update Commission</button>
         </div> <br>
         <div class="col-md-4">
             <button type="button" class="btn btn-danger" id="btn-delete-commission"><i class="fa fa-trash"></i> Delete Commission</button>
