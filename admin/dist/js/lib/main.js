@@ -139,7 +139,7 @@ $('#btn-add-commission-cms').click(async function() {
         } else {
             let uploadingImage = storageReference.child(commissionsRef + images + commissionCmsImageFile.name).put(commissionCmsImageFile);
             uploadingImage.on('state_changed', function(data) {
-                toast(uploading + "image...", info);
+                toast(uploading + commissionCmsName + " image...", info);
             }, function(err) {
                 toast(err, error);
                 return;
@@ -212,7 +212,7 @@ const getCommissions = async (doc) => {
         let commissionDescription = data.commission_cms_description;
         let commissionImageURL = data.commission_cms_image_url;
         let commissionDateTimeCreated = convertSecondsToDateLocal(data.created_at.seconds);
-        $('#commissions-cms-list').append('<tr><td class="text-center"><img src="'+commissionImageURL+'" width="100" height="80"></td><td class="text-center">'+commissionName+'</td><td class="text-center">'+commissionDescription+'</td><td class="text-center">'+commissionPrice+'</td><td class="text-center">'+commissionDateTimeCreated+'</td><td class="text-center"><button class="btn btn-primary text-white" onclick="viewCommissionCMS(\''+docId+'\',\''+commissionName+'\',\''+commissionPrice+'\',\''+commissionDescription+'\',\''+commissionImageURL+'\',\''+commissionDateTimeCreated+'\')"><i class="fa fa-eye"></i> VIEW MORE</button></td></tr>');
+        $('#commissions-cms-list').append('<tr><td class="text-center"><img src="'+commissionImageURL+'" width="100" height="80"></td><td class="text-center">'+commissionName+'</td><td class="text-center">'+commissionDescription+'</td><td class="text-center">'+commissionPrice+'</td><td class="text-center">'+commissionDateTimeCreated+'</td><td class="text-center"><button class="btn btn-primary text-white" onclick="viewCommissionCMS(\''+docId+'\',\''+commissionId+'\',\''+commissionName+'\',\''+commissionPrice+'\',\''+commissionDescription+'\',\''+commissionImageURL+'\',\''+commissionDateTimeCreated+'\')"><i class="fa fa-eye"></i> VIEW MORE</button></td></tr>');
         $('#commissions-container-lists').append('<h2 class="mbr-section-title align-center pb-3 mbr-fonts-style display-2">'+commissionName+'</h2><div class="media-container-row mt-5 pt-3" style="margin-bottom: 250px;"><div class="mbr-figure" style="width: 60%;"><img src="'+commissionImageURL+'" alt="milkywaydraws" media-simple="true"></div><div class="tabs-container"><div class="tab-content"><div id="tab1" class="tab-pane in active" role="tabpanel"><div class="row"><div class="col-md-12"><label class="mbr-section-title align-center display-5">₱ '+commissionPrice+'</label></div><div class="col-md-12"><p class="mbr-text py-5 mbr-fonts-style display-7">'+commissionDescription+'</p></div></div></div></div><ul class="nav nav-tabs" role="tablist"><li class="nav-item"><a class="nav-link mbr-fonts-style active" role="tab" data-toggle="tab" href="#" aria-expanded="true" onclick="redirectCommission((\''+commissionName+'\')">Commission</a></li></ul> <br> <br></div></div><br><br>');
         hideProgressModal();
     });
@@ -267,7 +267,7 @@ function viewCommission(
     });
 }
 
-function viewCommissionCMS(docId, commissionName, commissionPrice, commissionDescription, commissionImageURL, commissionDateTimeCreated) {
+function viewCommissionCMS(docId, commissionCmsId, commissionName, commissionPrice, commissionDescription, commissionImageURL, commissionDateTimeCreated) {
     showModal('#modal-view-commission-cms', show);
     inputText('#update-commission-cms-name', commissionName);
     inputText('#update-commission-cms-price', commissionPrice);
@@ -292,7 +292,7 @@ function viewCommissionCMS(docId, commissionName, commissionPrice, commissionDes
             }
             let uploadingImage = storageReference.child(commissionsRef + images + commissionCmsImageFile.name).put(commissionCmsImageFile);
             uploadingImage.on('state_changed', function(data) {
-                toast(uploading + "image...", info);
+                toast(uploading + commissionCmsName + " image...", info);
             }, function(err) {
                 toast(err, error);
                 return;
@@ -302,6 +302,28 @@ function viewCommissionCMS(docId, commissionName, commissionPrice, commissionDes
                 });
             });
         }
+    });
+    $('#btn-delete-commission').click(function() {
+        showModal('#modal-comission-delete', show);
+        showModal('#modal-view-commission-cms', hide);
+        text('#modal-header-title-delete', 'Warning: Delete Commission');
+        text('#modal-message-delete', deleteMsg + commissionName);
+        $('#btn-submit-cms-commission-delete').click(async function() {
+            showModal('#modal-comission-delete', hide);
+            showModal('#modal-loading', show);
+            const doc = await db.collection(commissionsRef + commissionsDomain + sl + cmsRef).where('commission_cms_id', '==', commissionCmsId).get();
+            doc.forEach(element => {
+                element.ref.delete();
+                toast("Successfully Deleted " + commissionName + "!", error);
+                setTimeout(function() {
+                    hideProgressModal();
+                    reloadPage('commissions-cms.html');
+                }, 3000);
+            });
+            setTimeout(function() {
+                hideProgressModal();
+            }, 10000);
+        });
     });
 }
 
