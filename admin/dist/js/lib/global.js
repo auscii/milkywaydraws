@@ -182,4 +182,7 @@ paid = "PAID",
 completed = "COMPLETED",
 pending = "PENDING",
 adminApproveSelectedTime = false,
+paid = "PAID",
+unpaid = "UNPAID",
+invoice = "INVOICE",
 versionNumber = "v1.0.0";
