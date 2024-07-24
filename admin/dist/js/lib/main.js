@@ -208,6 +208,17 @@ const getCommissions = async (doc) => {
         $('#commission-lists').append('<tr><td class="text-center">'+dateTimeCreated+'</td><td class="text-center">'+commissionUserName+'</td><td class="text-center">'+commissionCountry+'</td><td class="text-center">'+commissionEmail+'</td><td class="text-center">'+commissionType+'</td><td class="text-center"><span style="'+statusColor+'">'+status+'</span></td><td class="text-center"><button class="btn btn-primary text-white" onclick="viewCommission(\''+commissionType+'\',\''+commissionUserName+'\',\''+commissionAge+'\',\''+commissionCountry+'\',\''+commissionPaymentMethod+'\',\''+commissionEmail+'\',\''+commissionDiscord+'\',\''+commissionFacebook+'\',\''+commissionTwitter+'\',\''+commissionInstagram+'\',\''+commissionTwitch+'\',\''+commissionAddLink+'\',\''+commissionExtraInfo+'\')"><i class="fa fa-eye"></i> VIEW MORE</button></td></tr>');
         $('#financial-commission-lists').append('<tr><td class="text-center">'+dateTimeCreated+'</td><td class="text-center">'+commissionUserName+'</td><td class="text-center">'+commissionUserName+'</td><td class="text-center">'+commissionEmail+'</td><td class="text-center">'+commissionType+'</td><td class="text-center"><span style="'+statusColor+'">'+status+'</span></td><td class="text-center"><select class="form-control" id="financial-payment-status-selection" onchange="updateFinancialCommissionPayment(\''+docId+'\',\''+commissionType+'\')"><option disabled selected>--Select Payment Status--</option><option value="'+paid+'">'+paid+'</option><option value="'+unpaid+'">'+unpaid+'</option><option value="'+invoice+'">'+invoice+'</option></select></td></tr>');
         hideProgressModal();
+        if (currentPage == financialPage) {
+            $('#dt-financial-lists').DataTable({
+                "responsive": true,
+                "paging": true,
+                "searching": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "bDestroy": true,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#dt-financial-lists_wrapper .col-md-6:eq(0)');
+        }
     });
     cmsCommissions.docs.forEach(v => {
         let data= v.data();
@@ -374,7 +385,7 @@ function updateFinancialCommissionPayment(docId, commissionType) {
             toast("Updated payment!", success);
             setTimeout(function() {
                 hideProgressModal();
-                window.location.href = 'financial.html'
+                window.location.href = financialPage;
             }, 3000);
         });
     });

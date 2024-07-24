@@ -185,4 +185,6 @@ adminApproveSelectedTime = false,
 paid = "PAID",
 unpaid = "UNPAID",
 invoice = "INVOICE",
+currentPage = "",
+financialPage = "financial.html",
 versionNumber = "v1.0.0";

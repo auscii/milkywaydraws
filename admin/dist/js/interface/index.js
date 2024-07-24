@@ -256,6 +256,7 @@ function countdownIn(timerValue) {
 }
 
 function setBackround() {
+    currentPage = pathName.split("/").pop();
     // if (getUserPosition == adminUser) {
     //     populateDashboard();
     // }
