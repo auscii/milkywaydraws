@@ -3,7 +3,8 @@ $(function () {
     currentDateTime();
     setBackround();
     getCommissions();
-    // insertTempUser("Admin", "admin@admin.com", adminUser, noImage);
+    getUsers();
+    // insertNewUser("Admin", "admin@admin.com", adminUser, noImage);
     // getTotalAvailable8AM();
     // getTotalAvailable9AM();
     // getTotalAvailable10AM();
@@ -31,19 +32,28 @@ function keyCode(len, charSet) {
     return randomString;
 }
 
-function insertTempUser(userFullName, userEmailAddress, position, profilePicture) {
-  db.collection(usersRef).doc(usersDomain).collection(credentialsRef).add({
-    user_id: uuidv4(),
-    name: userFullName,
-    email_address: userEmailAddress,
-    position: position,
-    profile_picture: profilePicture,
-    status: 1,
-    created_at: serverDateTime
-  }).catch(function (e) {
-      toast(e.message, error);
-      return;
-  });
+function insertNewUser(userFullName, userEmailAddress, password, position, profilePicture) {
+    firebase.auth().createUserWithEmailAndPassword(userEmailAddress, password).then(function(d) {
+        let userId = d.user.uid;
+        db.collection(usersRef).doc(usersDomain).collection(credentialsRef).add({
+            user_id: uuidv4(),
+            name: userFullName,
+            email_address: userEmailAddress,
+            password: password,
+            position: position,
+            profile_picture: profilePicture,
+            status: 1,
+            created_at: serverDateTime
+        }).catch(function (e) {
+            toast(e.message, error);
+            return;
+        });
+        toast(successNewUser, success);
+        showModal('#modal-create-user', hide);
+        emptyInputText(['#a-last-name','#a-first-name','#a-middle-name','#a-suffix','#a-address','#a-birthday','#a-age','#a-gender','#a-email','#a-religion','#a-password','#a-confirm-password']);
+      }, function(e) {
+        toast(e.message, error);
+      });
 }
 
 function insertLogs(userId, userFullName, userEmailAddress, position, profilePicture, action, status, type) {
@@ -310,8 +320,14 @@ const getUsers = async (doc) => {
   const usersData = await userReference.get();
   usersData.docs.forEach(v => {
     const u = v.data();
-    let emailAddress = u.email_address, position = u.position, fullName = u.name,
+    var emailAddress = u.email_address, position = u.position, fullName = u.name, status = u.status, 
     userId = u.user_id, createdAt = convertSecondsToDateLocal(u.created_at.seconds);
+    if (status == 1) {
+        status = "ACTIVE";
+    } else {
+        status = "INACTIVE";
+    }
+    $('#user-lists').append('<tr><td class="text-center">'+fullName+'</td><td class="text-center">'+userId+'</td><td class="text-center">'+emailAddress+'</td><td class="text-center">'+status+'</td><td class="text-center">'+createdAt+'</td></tr>');
     if (userEmail == emailAddress) {
       if (position == adminUser) {
           userRedirectLink = dashboardUrl;
@@ -333,6 +349,36 @@ const getUsers = async (doc) => {
                 "New user login and redirect to Appointment page.", active, "LOGIN");
       redirect(userRedirectLink);
     }
+  });
+  $('#btn-show-add-admin').click(async function() {
+    showModal('#modal-add-new-admin', show);
+    $('#btn-submit-admin-new-user').click(async function() {
+        showModal('#modal-loading', show);
+        text('#modal-loading-message', "Creating new admin user...");
+        var userFullName = e,
+        userEmailAddress = e,
+        userAdminPassword = e,
+        userAdminConfirmPassword = e;
+        userFullName = $('#user-admin-name').val();
+        userEmailAddress = $('#user-admin-email-address').val();
+        userAdminPassword = $('#user-admin-password').val();
+        userAdminConfirmPassword = $('#user-admin-confirm-password').val();
+        
+        if (!userFullName || !userEmailAddress | !userAdminPassword || !userAdminConfirmPassword) {
+            hideProgressModal();
+            toast(requiredMsg, warning);
+        } else if (userAdminPassword != userAdminConfirmPassword) {
+            hideProgressModal();
+            toast(invalidPassword, warning);
+        } else {
+            showModal('#modal-add-new-admin', hide);
+            insertNewUser(userFullName, userEmailAddress, userAdminPassword, adminUser, noImage);
+            setTimeout(function() {
+                hideProgressModal();
+                window.location.href = 'user-management.html';
+            }, 3500);
+        }
+    });
   });
 };
 
@@ -358,37 +404,37 @@ function logout() {
              thumbnail, "User Logout", active, "LOGOUT");
 }
 
-function insertNewUser(firstName, middleName, lastName, suffix, address, birthday, age, gender, email, password, hashPassword, position, profilePic, religion, status, url) {
-  firebase.auth().createUserWithEmailAndPassword(email, password).then(function(d) {
-    let userId = d.user.uid;
-    db.collection(usersRef).doc(usersDomain).collection(credentialsRef).add({
-      id: userId,
-      first_name: firstName,
-      middle_name: middleName,
-      last_name: lastName,
-      email_address: email,
-      suffix: suffix,
-      address: address,
-      birthday: birthday,
-      gender: gender,
-      age: age,
-      pw: hashPassword,
-      profile_picture: profilePic,
-      position: position,
-      religion: religion,
-      status: status,
-      created_at: serverDateTime
-    }).catch(function (e) {
-        toast(e.message, error);
-        return;
-    });
-    toast(successNewUser, success);
-    showModal('#modal-create-user', hide);
-    emptyInputText(['#a-last-name','#a-first-name','#a-middle-name','#a-suffix','#a-address','#a-birthday','#a-age','#a-gender','#a-email','#a-religion','#a-password','#a-confirm-password']);
-  }, function(e) {
-    toast(e.message, error);
-  });
-}
+// function insertNewUser(firstName, middleName, lastName, suffix, address, birthday, age, gender, email, password, hashPassword, position, profilePic, religion, status, url) {
+//   firebase.auth().createUserWithEmailAndPassword(email, password).then(function(d) {
+//     let userId = d.user.uid;
+//     db.collection(usersRef).doc(usersDomain).collection(credentialsRef).add({
+//       id: userId,
+//       first_name: firstName,
+//       middle_name: middleName,
+//       last_name: lastName,
+//       email_address: email,
+//       suffix: suffix,
+//       address: address,
+//       birthday: birthday,
+//       gender: gender,
+//       age: age,
+//       pw: hashPassword,
+//       profile_picture: profilePic,
+//       position: position,
+//       religion: religion,
+//       status: status,
+//       created_at: serverDateTime
+//     }).catch(function (e) {
+//         toast(e.message, error);
+//         return;
+//     });
+//     toast(successNewUser, success);
+//     showModal('#modal-create-user', hide);
+//     emptyInputText(['#a-last-name','#a-first-name','#a-middle-name','#a-suffix','#a-address','#a-birthday','#a-age','#a-gender','#a-email','#a-religion','#a-password','#a-confirm-password']);
+//   }, function(e) {
+//     toast(e.message, error);
+//   });
+// }
 
 const searchRecord = async (doc) => {
     var stopSearch = false;

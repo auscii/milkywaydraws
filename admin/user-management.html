@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="../images/favicon.ico">
+  <title>milkywaydraws | Admin</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="dist/css/custom.css">
+  <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+
+<div class="wrapper">
+
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="index.html" class="brand-link  text-center">
+      <span class="brand-text font-weight-bold text-white">milkywaydraws</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">
+              <i class="nav-icon fas fa-home"></i>
+              <p>Overview</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Commissions
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="add-commissions.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Commissions</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="commissions.html" class="nav-link" id="primary-active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>List of Commissions</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="commissions-cms.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>CMS</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item active">
+            <a href="financial.html" class="nav-link">
+              <i class="nav-icon fa fa-credit-card"></i>
+              <p>Financials</p>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="settings.html" class="nav-link" id="primary-active">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>Settings</p>
+            </a>
+          </li><li class="nav-item active">
+            <a href="#" class="nav-link" onclick="logoutUser()">
+              <i class="nav-icon fa fa-times-circle"></i>
+              <p>Logout</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">User Management</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">Settings</li>
+              <li class="breadcrumb-item active">User Management</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+
+    <section class="content">
+        <div class="card-body p-0">
+            <section class="content">
+              <div class="container-fluid">
+                <button class="btn btn-success" id="btn-show-add-admin"><i class="fa fa-plus-circle"></i> Add New Admin User</button>
+                <div class="card-body p-0">
+                    <table class="table table-striped projects">
+                      <thead>
+                        <tr>
+                          <th class="text-center">NAME</th>
+                          <th class="text-center">USER ID</th>
+                          <th class="text-center">EMAIL</th>
+                          <th class="text-center">STATUS</th>
+                          <th class="text-center">DATE/TIME CREATED</th>
+                        </tr>
+                      </thead>
+                      <tbody id="user-lists"></tbody>
+                    </table>
+                  </div>
+              </div>
+            </section>
+        </div>
+    </section>
+
+  </div>
+  
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2024 <a href="#" id="primary-active">milkywaydraws</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 1.0.0
+    </div>
+  </footer>
+
+</div>
+
+<!-- MODALS -->
+<div class="modal fade" id="modal-loading" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-spinner">
+      <center> <img src="dist/img/spinner.gif" class="spinner" /> <p class="text-white"><span id="modal-loading-message">Getting data...</span></p> </center>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-add-new-admin" data-backdrop="static" data-keyboard="false" style="overflow: scroll;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-center" id="theme-color"><strong>Add New Adnin</strong></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    
+        <div class="modal-body">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 multi-horizontal" data-for="user-admin-name">
+                        <div class="form-group">
+                            <label class="form-control-label mbr-fonts-style display-7" for="user-admin-name">Name</label>
+                            <input type="text" class="form-control" name="user-admin-name" data-form-field="user-admin-name" id="user-admin-name">
+                        </div>
+                    </div>
+                    <div class="col-md-6 multi-horizontal" data-for="user-admin-email-address">
+                        <div class="form-group">
+                            <label class="form-control-label mbr-fonts-style display-7" for="user-admin-email-address">Email Address</label>
+                            <input type="email" class="form-control" name="user-admin-email-address" data-form-field="user-admin-email-address" id="user-admin-email-address">
+                        </div>
+                    </div>
+                    <div class="col-md-6 multi-horizontal" data-for="user-admin-password">
+                        <div class="form-group">
+                            <label class="form-control-label mbr-fonts-style display-7" for="user-admin-password">Password</label>
+                            <input type="password" class="form-control" name="user-admin-password" data-form-field="user-admin-password" id="user-admin-password">
+                        </div>
+                    </div>
+                    <div class="col-md-6 multi-horizontal" data-for="user-admin-confirm-password">
+                        <div class="form-group">
+                            <label class="form-control-label mbr-fonts-style display-7" for="user-admin-confirm-password">Confirm Password</label>
+                            <input type="password" class="form-control" name="user-admin-confirm-password" data-form-field="user-admin-confirm-password" id="user-admin-confirm-password">
+                        </div>
+                    </div>
+                </div> <br>
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary text-right" id="btn-submit-admin-new-user"> <i class="fa fa-check-circle"></i> Submit</button> &nbsp;
+            <button type="button" class="btn btn-danger text-right" data-dismiss="modal" aria-label="Close"> <i class="fa fa-times"></i> Cancel</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-storage.js"></script>
+<script src="plugins/jquery/jquery.min.js"></script>
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="plugins/chart.js/Chart.min.js"></script>
+<script src="plugins/sparklines/sparkline.js"></script>
+<script src="plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="plugins/summernote/summernote-bs4.min.js"></script>
+<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="plugins/toastr/toastr.min.js"></script>
+<script src="dist/js/adminlte.js"></script>
+<script src="dist/js/lib/global.js"></script>
+<script src="dist/js/lib/provider.js"></script>
+<script src="dist/js/interface/index.js"></script>
+<script src="dist/js/lib/main.js"></script>
+<script src="dist/js/lib/auth.js"></script>
+</body>
+</html>
