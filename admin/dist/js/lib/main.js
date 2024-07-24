@@ -172,7 +172,7 @@ $('#btn-add-commission-cms').click(async function() {
 const getCommissions = async (doc) => {
     showModal('#modal-loading', show);
     var values = await db.collection(commissionsRef + commissionsDomain + sl + entryRef).get(); //.where("status", '==', 1).get();
-    var requestsCommissions = await db.collection(commissionsRef + commissionsDomain + sl + entryRef).where("status", '==', "PENDING").get();
+    var requestsCommissions = await db.collection(commissionsRef + commissionsDomain + sl + entryRef).where("status", '==', "UNPAID").get();
     var cmsCommissions = await db.collection(commissionsRef + commissionsDomain + sl + cmsRef).get();
     var totalCommissions = values.docs.length;
     var totalRequestsCommissions = requestsCommissions.docs.length;
@@ -205,7 +205,7 @@ const getCommissions = async (doc) => {
         } else if (status == invoice) {
             statusColor = "color: blue;";
         }
-        $('#commission-lists').append('<tr><td class="text-center">'+dateTimeCreated+'</td><td class="text-center">'+commissionUserName+'</td><td class="text-center">'+commissionCountry+'</td><td class="text-center">'+commissionEmail+'</td><td class="text-center">'+commissionType+'</td><td class="text-center">'+status+'</td><td class="text-center"><button class="btn btn-primary text-white" onclick="viewCommission(\''+commissionType+'\',\''+commissionUserName+'\',\''+commissionAge+'\',\''+commissionCountry+'\',\''+commissionPaymentMethod+'\',\''+commissionEmail+'\',\''+commissionDiscord+'\',\''+commissionFacebook+'\',\''+commissionTwitter+'\',\''+commissionInstagram+'\',\''+commissionTwitch+'\',\''+commissionAddLink+'\',\''+commissionExtraInfo+'\')"><i class="fa fa-eye"></i> VIEW MORE</button></td></tr>');
+        $('#commission-lists').append('<tr><td class="text-center">'+dateTimeCreated+'</td><td class="text-center">'+commissionUserName+'</td><td class="text-center">'+commissionCountry+'</td><td class="text-center">'+commissionEmail+'</td><td class="text-center">'+commissionType+'</td><td class="text-center"><span style="'+statusColor+'">'+status+'</span></td><td class="text-center"><button class="btn btn-primary text-white" onclick="viewCommission(\''+commissionType+'\',\''+commissionUserName+'\',\''+commissionAge+'\',\''+commissionCountry+'\',\''+commissionPaymentMethod+'\',\''+commissionEmail+'\',\''+commissionDiscord+'\',\''+commissionFacebook+'\',\''+commissionTwitter+'\',\''+commissionInstagram+'\',\''+commissionTwitch+'\',\''+commissionAddLink+'\',\''+commissionExtraInfo+'\')"><i class="fa fa-eye"></i> VIEW MORE</button></td></tr>');
         $('#financial-commission-lists').append('<tr><td class="text-center">'+dateTimeCreated+'</td><td class="text-center">'+commissionUserName+'</td><td class="text-center">'+commissionUserName+'</td><td class="text-center">'+commissionEmail+'</td><td class="text-center">'+commissionType+'</td><td class="text-center"><span style="'+statusColor+'">'+status+'</span></td><td class="text-center"><select class="form-control" id="financial-payment-status-selection" onchange="updateFinancialCommissionPayment(\''+docId+'\',\''+commissionType+'\')"><option disabled selected>--Select Payment Status--</option><option value="'+paid+'">'+paid+'</option><option value="'+unpaid+'">'+unpaid+'</option><option value="'+invoice+'">'+invoice+'</option></select></td></tr>');
         hideProgressModal();
     });

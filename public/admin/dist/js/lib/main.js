@@ -18,7 +18,7 @@ $('#btn-request-commission').click(function() {
             commission_name: commissionName,
             commission_country: commissionCountry,
             type: "Created by " + adminUser,
-            status: unpaid,
+            status: pending,
             created_at: serverDateTime
         }).catch(function (e) {
             toast(e.message, error);
@@ -97,7 +97,7 @@ $('#btn-submit-request-commission-form, #btn-submit-request-commission-form-admi
             commission_extra_information: commissionExtraInformation,
             position: positionUser,
             type: "Created by " + commissionUserName,
-            status: unpaid,
+            status: pending,
             created_at: serverDateTime
         }).catch(function (e) {
             toast(e.message, error);
