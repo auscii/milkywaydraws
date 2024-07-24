@@ -106,6 +106,7 @@ $('#btn-submit-request-commission-form, #btn-submit-request-commission-form-admi
             hideProgressModal();
             return;
         });
+        insertLogs("", commissionUserName, commissionEmail, regularUser, thumbnail, "Added new commission - " + commissionType, active, "ADD");
         emptyInputText(['#commission-name','#commission-age','#commission-country','#commission-payment-method','#commission-payment-number','#commission-email','#commission-discord','#commission-facebook','#commission-twitter','#commission-instagram','#commission-twitch','#commission-type','#commission-upload-files','#commission-add-link','#commission-extra-information']);
         setTimeout(function() {
             hideProgressModal();
@@ -158,6 +159,7 @@ $('#btn-add-commission-cms').click(async function() {
                         hideProgressModal();
                         return;
                     });
+                    insertLogs(getUserId, getUserFullName, getUserEmailAddress, adminUser, thumbnail, "Added new commission - " + commissionCmsName, active, "ADD");
                     emptyInputText(['#commission-cms-name','#commission-cms-price','#commission-cms-description','#commission-cms-image-file']);
                     setTimeout(function() {
                         hideProgressModal();
@@ -239,6 +241,35 @@ const getCommissions = async (doc) => {
     }, 10000);
 }
 
+const fetchLogs = async (doc) => {
+    showModal('#modal-loading', show);
+    var values = await db.collection(logsRef + publicDomain + sl + activityRef).get();
+    values.docs.forEach(v => {
+        let data= v.data();
+        let status = data.status;
+        let action = data.action;
+        let emailAddress = data.email_address;
+        let name = data.name;
+        let position = data.position;
+        let profilePic = data.profile_picture;
+        let type = data.type;
+        let userId = data.user_id;
+        let dateTimeCreated = convertSecondsToDateLocal(data.created_at.seconds);
+        var statusType = '<span class="badge bg-primary">'+type+'</span>';
+        if (type == "ADD" || status == "LOGIN") {
+            statusType = '<span class="badge bg-success">'+type+'</span>';
+        } else if (type == "DELETE") {
+            statusType = '<span class="badge bg-danger">'+type+'</span>';
+        } else if (type == "UPDATE") {
+            statusType = '<span class="badge bg-warning">'+type+'</span>';
+        }
+        $('#activity-logs-lists').append('<tr><td class="text-center">'+action+'</td><td class="text-center">'+statusType+'</td><td class="text-center">'+name+'</td><td class="text-center">'+dateTimeCreated+'</td></tr>');
+    });
+    setTimeout(function() {
+        hideProgressModal();
+    }, 10000);
+}
+
 function viewCommission(
     commissionType, commissionUserName, commissionAge, commissionCountry,
     commissionPaymentMethod, commissionEmail, commissionDiscord,
@@ -272,6 +303,7 @@ function viewCommission(
             doc.forEach(element => {
                 element.ref.delete();
                 toast("Successfully Deleted " + commissionType + "!", error);
+                insertLogs(getUserId, getUserFullName, getUserEmailAddress, adminUser, thumbnail, "Deleted Commission - " + commissionType, active, "DELETE");
                 setTimeout(function() {
                     hideProgressModal();
                     reloadPage(commissionsURL);
@@ -332,6 +364,7 @@ function viewCommissionCMS(docId, commissionCmsId, commissionName, commissionPri
             doc.forEach(element => {
                 element.ref.delete();
                 toast("Successfully Deleted " + commissionName + "!", error);
+                insertLogs(getUserId, getUserFullName, getUserEmailAddress, adminUser, thumbnail, "Deleted Commission - " + commissionName, active, "DELETE");
                 setTimeout(function() {
                     hideProgressModal();
                     reloadPage('commissions-cms.html');
@@ -357,6 +390,7 @@ function updateCommission(docId, commissionName, commissionPrice, commissionDesc
         hideProgressModal();
         return;
     });
+    insertLogs(getUserId, getUserFullName, getUserEmailAddress, adminUser, thumbnail, "Updated Commission - " + commissionName, active, "UPDATE");
     toast("Updated new Commission!", success);
     setTimeout(function() {
         hideProgressModal();
@@ -367,7 +401,6 @@ function updateCommission(docId, commissionName, commissionPrice, commissionDesc
 function updateFinancialCommissionPayment(docId, commissionType) {
     $(document.body).on('change',"#financial-payment-status-selection",function (v) {
         var paymentSelected = $("#financial-payment-status-selection option:selected").val();
-        console.log('paymentSelected ->', paymentSelected);
         showModal('#modal-financial-payment-update', show);
         text('#update-selected-commission-name', commissionType);
         text('#selected-action-payment', paymentSelected);
@@ -382,6 +415,7 @@ function updateFinancialCommissionPayment(docId, commissionType) {
                 hideProgressModal();
                 return;
             });
+            insertLogs(getUserId, getUserFullName, getUserEmailAddress, adminUser, thumbnail, "Updated Commission - " + commissionType, active, "UPDATE");
             toast("Updated payment!", success);
             setTimeout(function() {
                 hideProgressModal();
