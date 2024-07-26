@@ -17,9 +17,6 @@
   <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
   <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
-  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -44,7 +41,7 @@
               <p>Overview</p>
             </a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -60,7 +57,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="commissions.html" class="nav-link">
+                <a href="commissions.html" class="nav-link" id="primary-active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>List of Commissions</p>
                 </a>
@@ -74,13 +71,13 @@
             </ul>
           </li>
           <li class="nav-item active">
-            <a href="financial.html" class="nav-link" id="primary-active">
+            <a href="financial.html" class="nav-link">
               <i class="nav-icon fa fa-credit-card"></i>
               <p>Financials</p>
             </a>
           </li>
           <li class="nav-item active">
-            <a href="settings.html" class="nav-link">
+            <a href="settings.html" class="nav-link" id="primary-active">
               <i class="nav-icon fas fa-cog"></i>
               <p>Settings</p>
             </a>
@@ -104,12 +101,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Financial</h1>
+            <h1 class="m-0">User Management</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item">Home</li>
-              <li class="breadcrumb-item active">Financial</li>
+              <li class="breadcrumb-item"><a href="settings.html">Settings</a></li>
+              <li class="breadcrumb-item active">User Management</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -120,20 +117,19 @@
         <div class="card-body p-0">
             <section class="content">
               <div class="container-fluid">
+                <button class="btn btn-success" id="btn-show-add-admin"><i class="fa fa-plus-circle"></i> Add New Admin User</button>
                 <div class="card-body p-0">
-                    <table class="table table-striped projects" id="dt-financial-lists">
+                    <table class="table table-striped projects">
                       <thead>
                         <tr>
-                          <th class="text-center">DATE/TIME CREATED</th>
                           <th class="text-center">NAME</th>
-                          <th class="text-center">PAYMENT</th>
+                          <th class="text-center">USER ID</th>
                           <th class="text-center">EMAIL</th>
-                          <th class="text-center">COMMISSION</th>
                           <th class="text-center">STATUS</th>
-                          <th class="text-center">ACTION</th>
+                          <th class="text-center">DATE/TIME CREATED</th>
                         </tr>
                       </thead>
-                      <tbody id="financial-commission-lists"></tbody>
+                      <tbody id="user-lists"></tbody>
                     </table>
                   </div>
               </div>
@@ -152,35 +148,60 @@
   </footer>
 
 </div>
-    
+
 <!-- MODALS -->
 <div class="modal fade" id="modal-loading" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-sm modal-spinner">
-        <center> <img src="dist/img/spinner.gif" class="spinner" /> <p class="text-white"><span id="loading-message-data">Getting data...</span></p> </center>
-    </div>
+  <div class="modal-dialog modal-sm modal-spinner">
+      <center> <img src="dist/img/spinner.gif" class="spinner" /> <p class="text-white"><span id="modal-loading-message">Getting data...</span></p> </center>
+  </div>
 </div>
 
-<div class="modal fade" id="modal-financial-payment-update" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="modal-add-new-admin" data-backdrop="static" data-keyboard="false" style="overflow: scroll;">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content">
+        <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title text-center" id="theme-color">Update - <span id="update-selected-commission-name"></span></h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <h4 class="modal-title text-center" id="theme-color"><strong>Add New Adnin</strong></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
-          </button>
+            </button>
         </div>
+    
         <div class="modal-body">
-            <div class="text-center">
-                <h4>Update this payment into - <span id="selected-action-payment"></span>?</h4>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 multi-horizontal" data-for="user-admin-name">
+                        <div class="form-group">
+                            <label class="form-control-label mbr-fonts-style display-7" for="user-admin-name">Name</label>
+                            <input type="text" class="form-control" name="user-admin-name" data-form-field="user-admin-name" id="user-admin-name">
+                        </div>
+                    </div>
+                    <div class="col-md-6 multi-horizontal" data-for="user-admin-email-address">
+                        <div class="form-group">
+                            <label class="form-control-label mbr-fonts-style display-7" for="user-admin-email-address">Email Address</label>
+                            <input type="email" class="form-control" name="user-admin-email-address" data-form-field="user-admin-email-address" id="user-admin-email-address">
+                        </div>
+                    </div>
+                    <div class="col-md-6 multi-horizontal" data-for="user-admin-password">
+                        <div class="form-group">
+                            <label class="form-control-label mbr-fonts-style display-7" for="user-admin-password">Password</label>
+                            <input type="password" class="form-control" name="user-admin-password" data-form-field="user-admin-password" id="user-admin-password">
+                        </div>
+                    </div>
+                    <div class="col-md-6 multi-horizontal" data-for="user-admin-confirm-password">
+                        <div class="form-group">
+                            <label class="form-control-label mbr-fonts-style display-7" for="user-admin-confirm-password">Confirm Password</label>
+                            <input type="password" class="form-control" name="user-admin-confirm-password" data-form-field="user-admin-confirm-password" id="user-admin-confirm-password">
+                        </div>
+                    </div>
+                </div> <br>
             </div>
         </div>
+        
         <div class="modal-footer">
-          <center>
-            <button type="button" class="btn btn-success" id="btn-submit-update-financial-payment"> <i class="fa fa-check-circle"></i> Yes</button> &nbsp;
-            <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close"> <i class="fa fa-times"></i> No</button>
-          </center>
+            <button type="button" class="btn btn-primary text-right" id="btn-submit-admin-new-user"> <i class="fa fa-check-circle"></i> Submit</button> &nbsp;
+            <button type="button" class="btn btn-danger text-right" data-dismiss="modal" aria-label="Close"> <i class="fa fa-times"></i> Cancel</button>
         </div>
-      </div>
+        </div>
     </div>
 </div>
 
@@ -189,22 +210,18 @@
 <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-storage.js"></script>
 <script src="plugins/jquery/jquery.min.js"></script>
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="plugins/chart.js/Chart.min.js"></script>
+<script src="plugins/sparklines/sparkline.js"></script>
+<script src="plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="plugins/summernote/summernote-bs4.min.js"></script>
+<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <script src="plugins/toastr/toastr.min.js"></script>
 <script src="dist/js/adminlte.js"></script>
-<script src="plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="plugins/jszip/jszip.min.js"></script>
-<script src="plugins/pdfmake/pdfmake.min.js"></script>
-<script src="plugins/pdfmake/vfs_fonts.js"></script>
-<script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<!-- <script src="dist/js/lib/data-table.js"></script> -->
 <script src="dist/js/lib/global.js"></script>
 <script src="dist/js/lib/provider.js"></script>
 <script src="dist/js/interface/index.js"></script>

@@ -14,7 +14,6 @@ function redirectCommission(commissionName) {
         showModal('#modal-info', hide);
         showModal('#modal-read-terms-condition', show);
     });
-    
 };
 
 (function($) {

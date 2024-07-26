@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -41,7 +42,7 @@
             </a>
           </li>
           <li class="nav-item active">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link" id="primary-active">
               <i class="nav-icon fas fa-copy"></i>
               <p>
                 Commissions
@@ -59,6 +60,12 @@
                 <a href="commissions.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>List of Commissions</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="commissions-cms.html" class="nav-link" id="primary-active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>CMS</p>
                 </a>
               </li>
             </ul>
@@ -111,18 +118,19 @@
             <section class="content">
               <div class="container-fluid">
                 <div class="card-body p-0">
+                    <button class="btn btn-primary" id="btn-add-commission-cms"><i class="fa fa-plus-circle"></i> Add New Commission</button>
                     <table class="table table-striped projects">
                       <thead>
                         <tr>
-                          <th class="text-center">DATE/TIME CREATED</th>
-                          <th class="text-center">NAME</th>
-                          <th class="text-center">PAYMENT</th>
-                          <th class="text-center">EMAIL</th>
-                          <th class="text-center">COMMISSION</th>
-                          <th class="text-center">STATUS</th>
+                            <th class="text-center">IMAGE</th>
+                            <th class="text-center">COMMISSION NAME</th>
+                            <th class="text-center">DESCRIPTION</th>
+                            <th class="text-center">PRICE</th>
+                            <th class="text-center">DATE TIME CREATED</th>
+                            <th class="text-center">ACTION</th>
                         </tr>
                       </thead>
-                      <tbody id="payment-lists"></tbody>
+                      <tbody id="commissions-cms-list"></tbody>
                     </table>
                   </div>
               </div>
@@ -142,6 +150,150 @@
 
 </div>
 
+<!-- MODALS -->
+<div class="modal fade" id="modal-loading" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm modal-spinner">
+        <center> <img src="dist/img/spinner.gif" class="spinner" /> <p class="text-white"><span id="loading-message-data">Getting data...</span></p> </center>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-add-commissions-cms" data-backdrop="static" data-keyboard="false" style="overflow: scroll;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-center" id="theme-color"><strong>Add New Commission</strong></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    
+        <div class="modal-body">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 multi-horizontal" data-for="commission-cms-name">
+                        <div class="form-group">
+                            <label class="form-control-label mbr-fonts-style display-7" for="commission-cms-name">Commission Name</label>
+                            <input type="text" class="form-control" name="commission-cms-name" data-form-field="commission-cms-name" id="commission-cms-name">
+                        </div>
+                    </div>
+                    <div class="col-md-6 multi-horizontal" data-for="commission-cms-price">
+                        <div class="form-group">
+                            <label class="form-control-label mbr-fonts-style display-7" for="commission-cms-price">Price</label>
+                            <input type="number" class="form-control" name="commission-cms-price" data-form-field="commission-cms-price" id="commission-cms-price">
+                        </div>
+                    </div>
+                    <div class="col-md-6 multi-horizontal" data-for="commission-cms-description">
+                        <div class="form-group">
+                            <label class="form-control-label mbr-fonts-style display-7" for="commission-cms-description">Description</label>
+                            <textarea type="text" class="form-control" name="commission-cms-description" rows="7" data-form-field="commission-cms-description" id="commission-cms-description"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6 multi-horizontal" data-for="commission-cms-image-file">
+                        <div class="form-group">
+                            <label class="form-control-label mbr-fonts-style display-7" for="commission-cms-image-file">Image</label> <br>
+                            <img src="../images/thumbnail.png" id="commission-cms-display-image" width="150" height="150"> <br>
+                            <input type="file" accept="image/*" class="form-control" name="commission-cms-image-file" data-form-field="commission-cms-image-file" id="commission-cms-image-file" onchange="document.getElementById('commission-cms-display-image').src = window.URL.createObjectURL(this.files[0])">
+                        </div>
+                    </div>
+                </div> <br>
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary text-right" id="btn-submit-commissions-cms"> <i class="fa fa-check-circle"></i> Submit</button> &nbsp;
+            <button type="button" class="btn btn-danger text-right" data-dismiss="modal" aria-label="Close"> <i class="fa fa-times"></i> Cancel</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-view-commission-cms" data-backdrop="static" data-keyboard="false" style="overflow: scroll;">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-center" id="primary-active">View Commission</h4>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <center>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="col-md-12 multi-horizontal" data-for="update-commission-cms-image-file">
+                                <div class="form-group">
+                                    <img src="../images/thumbnail.png" id="display-cms-update-commission-image" width="150" height="150"> <br>
+                                    <label class="form-control-label mbr-fonts-style display-7" for="update-commission-cms-image-file">Image</label> <br>
+                                    <input type="file" accept="image/*" class="form-control" name="update-commission-cms-image-file" data-form-field="update-commission-cms-image-file" id="update-commission-cms-image-file" onchange="document.getElementById('display-cms-update-commission-image').src = window.URL.createObjectURL(this.files[0])"> <br>
+                                </div>
+                            </div>
+                            <div class="text-left">
+                                <div class="row">
+                                    <div class="col-md-6 multi-horizontal" data-for="update-commission-cms-name">
+                                        <div class="form-group">
+                                            <label class="form-control-label mbr-fonts-style display-7" for="update-commission-cms-name">Commission Name</label>
+                                            <input type="text" class="form-control" name="update-commission-cms-name" data-form-field="update-commission-cms-name" id="update-commission-cms-name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 multi-horizontal" data-for="update-commission-cms-price">
+                                        <div class="form-group">
+                                            <label class="form-control-label mbr-fonts-style display-7" for="update-commission-cms-price">Price</label>
+                                            <input type="number" class="form-control" name="update-commission-cms-price" data-form-field="update-commission-cms-price" id="update-commission-cms-price">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 multi-horizontal" data-for="update-commission-cms-description">
+                                        <div class="form-group">
+                                            <label class="form-control-label mbr-fonts-style display-7" for="update-commission-cms-description">Description</label>
+                                            <textarea type="text" class="form-control" name="update-commission-cms-description" rows="7" data-form-field="update-commission-cms-description" id="update-commission-cms-description"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </center>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+
+        <div class="col-md-4">
+            <button type="button" class="btn btn-success" id="btn-submit-update-commission"><i class="fa fa-pen"></i> Update Commission</button>
+        </div> <br>
+        <div class="col-md-4">
+            <button type="button" class="btn btn-danger" id="btn-delete-commission"><i class="fa fa-trash"></i> Delete Commission</button>
+        </div>
+        <div class="col-md-4">
+            <button type="button" class="btn btn-default" onclick="reloadPage('commissions-cms.html')"> <i class="fa fa-times"></i> Close View Commission</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal-comission-delete" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title text-center" id="theme-color"><strong id="modal-header-title-delete"></strong></h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+              <p id="modal-message-delete"></p>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success text-right" id="btn-submit-cms-commission-delete"> <i class="fa fa-check-circle"></i> Yes</button> &nbsp;
+        <button type="button" class="btn btn-danger text-right" data-dismiss="modal" aria-label="Close"> <i class="fa fa-times-circle"></i> No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.4.2/firebase-auth.js"></script>
@@ -158,7 +310,7 @@
 <script src="plugins/summernote/summernote-bs4.min.js"></script>
 <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <script src="dist/js/adminlte.js"></script>
-<script src="dist/js/pages/dashboard.js"></script>
+<script src="plugins/toastr/toastr.min.js"></script>
 <script src="dist/js/lib/global.js"></script>
 <script src="dist/js/lib/provider.js"></script>
 <script src="dist/js/interface/index.js"></script>

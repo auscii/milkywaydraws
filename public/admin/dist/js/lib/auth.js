@@ -15,28 +15,21 @@ $(function () {
             toast(requiredMsg, warning);
             return;
         } else {
-            if ($("#input-checker-robot").is(":not(:checked)")) {
-                hideProgressModal();
-                toast("Please prove you are not a robot.", warning);
-                return;
-            } else {
-                firebase.auth().signInWithEmailAndPassword(email, password).then(function(u) {
-                    firebase.auth().onAuthStateChanged((u) => {
-                        userEmail = email;
-                        toast("Successfully login!", success);
-                        if (firebase.auth().currentUser != null) {
-                            getUsers();
-                        } else {
-                            hideProgressModal();
-                            toast(userNotFound, error);
-                            return;
-                        }
-                    });
-                }).catch(function(e) {
-                    hideProgressModal();
-                    toast("Invalid Login Credentials!", error);
+            firebase.auth().signInWithEmailAndPassword(email, password).then(function(u) {
+                firebase.auth().onAuthStateChanged((u) => {
+                    userEmail = email;
+                    if (firebase.auth().currentUser != null) {
+                        getUsers();
+                    } else {
+                        hideProgressModal();
+                        toast(userNotFound, error);
+                        return;
+                    }
                 });
-            }
+            }).catch(function(e) {
+                hideProgressModal();
+                toast("Invalid Login Credentials!", error);
+            });
         }
     });
     // $('#btn-create-account').click(function() {
